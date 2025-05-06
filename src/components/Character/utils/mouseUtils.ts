@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import * as THREE from "three";
 
 export const handleMouseMove = (

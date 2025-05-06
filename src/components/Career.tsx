@@ -15,43 +15,38 @@ const Career = () => {
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>Member in Designix</h4>
+                <h5>Galgotias University</h5>
               </div>
-              <h3>20XX</h3>
+              <h3>2025</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+            Selected as MVP and Top Creator at Designix, a premier club for motion graphics and UI/UX design, for outstanding contributions in branding, logo design, and creative leadership.
+            Honored with the Creator of the Month award for consistently delivering high-impact visual content.
             </p>
           </div>
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>CEO and founder of Cypher</h4>
+                <h5>Cypher</h5>
               </div>
-              <h3>20XX</h3>
+              <h3>2025</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+              Cypher is a Saas Platform that uses Electron JS to create a custom ai assistant without being in the website.It is a desktop application that is used on the screen with Electron JS and is click through to teh website.
             </p>
           </div>
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>Developed a Educational Platform</h4>
+                <h5>Zenith</h5>
               </div>
-              <h3>NOW</h3>
+              <h3>2025</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+              Zenith is a educational platform which is powered by AI which helps users to learn anything, anytime,anywhere without getting into searhing for long hours on Youtube with also a peer to peer learning developed.
             </p>
           </div>
         </div>

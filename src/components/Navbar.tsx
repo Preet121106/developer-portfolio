@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable prefer-const */
 import { useEffect } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HoverLinks from "./HoverLinks";
@@ -43,14 +45,14 @@ const Navbar = () => {
     <>
       <div className="header">
         <a href="/#" className="navbar-title" data-cursor="disable">
-          Logo
-        </a>
+         <img src="/logo/logo-dark.png" alt="Logo" className="logo-img" />
+       </a>
         <a
-          href="mailto:example@mail.com"
+          href="/"
           className="navbar-connect"
           data-cursor="disable"
         >
-          example@mail.com
+          Building one Bit at a Time
         </a>
         <ul>
           <li>

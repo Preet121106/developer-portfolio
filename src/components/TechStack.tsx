@@ -1,213 +1,121 @@
-import * as THREE from "three";
-import { useRef, useMemo, useState, useEffect } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
-import { EffectComposer, N8AO } from "@react-three/postprocessing";
-import {
-  BallCollider,
-  Physics,
-  RigidBody,
-  CylinderCollider,
-  RapierRigidBody,
-} from "@react-three/rapier";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useRef, useEffect } from 'react';
+import './styles/Techstack.css';
 
-const textureLoader = new THREE.TextureLoader();
-const imageUrls = [
-  "/images/react2.webp",
-  "/images/next2.webp",
-  "/images/node2.webp",
-  "/images/express.webp",
-  "/images/mongo.webp",
-  "/images/mysql.webp",
-  "/images/typescript.webp",
-  "/images/javascript.webp",
-];
-const textures = imageUrls.map((url) => textureLoader.load(url));
-
-const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
-
-const spheres = [...Array(30)].map(() => ({
-  scale: [0.7, 1, 0.8, 1, 1][Math.floor(Math.random() * 5)],
-}));
-
-type SphereProps = {
-  vec?: THREE.Vector3;
-  scale: number;
-  r?: typeof THREE.MathUtils.randFloatSpread;
-  material: THREE.MeshPhysicalMaterial;
-  isActive: boolean;
+// Configurable images with transform styles (zoom & position)
+const techImages = {
+  leftBox: {
+    src: '/box2.png',
+    style: {
+      transform: 'translateX(-60%) translateY(-30%) scale(1.6)',
+    },
+  },
+  frontend: {
+    src: '/box.png',
+    style: {
+      transform: 'translateX(-50%) scale(1.0)',
+    },
+  },
+  backend: {
+    src: '/box3.png',
+    style: {
+      transform: 'translateX(-55%) scale(1.15)',
+    },
+  },
 };
-
-function SphereGeo({
-  vec = new THREE.Vector3(),
-  scale,
-  r = THREE.MathUtils.randFloatSpread,
-  material,
-  isActive,
-}: SphereProps) {
-  const api = useRef<RapierRigidBody | null>(null);
-
-  useFrame((_state, delta) => {
-    if (!isActive) return;
-    delta = Math.min(0.1, delta);
-    const impulse = vec
-      .copy(api.current!.translation())
-      .normalize()
-      .multiply(
-        new THREE.Vector3(
-          -50 * delta * scale,
-          -150 * delta * scale,
-          -50 * delta * scale
-        )
-      );
-
-    api.current?.applyImpulse(impulse, true);
-  });
-
-  return (
-    <RigidBody
-      linearDamping={0.75}
-      angularDamping={0.15}
-      friction={0.2}
-      position={[r(20), r(20) - 25, r(20) - 10]}
-      ref={api}
-      colliders={false}
-    >
-      <BallCollider args={[scale]} />
-      <CylinderCollider
-        rotation={[Math.PI / 2, 0, 0]}
-        position={[0, 0, 1.2 * scale]}
-        args={[0.15 * scale, 0.275 * scale]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        scale={scale}
-        geometry={sphereGeometry}
-        material={material}
-        rotation={[0.3, 1, 1]}
-      />
-    </RigidBody>
-  );
-}
-
-type PointerProps = {
-  vec?: THREE.Vector3;
-  isActive: boolean;
-};
-
-function Pointer({ vec = new THREE.Vector3(), isActive }: PointerProps) {
-  const ref = useRef<RapierRigidBody>(null);
-
-  useFrame(({ pointer, viewport }) => {
-    if (!isActive) return;
-    const targetVec = vec.lerp(
-      new THREE.Vector3(
-        (pointer.x * viewport.width) / 2,
-        (pointer.y * viewport.height) / 2,
-        0
-      ),
-      0.2
-    );
-    ref.current?.setNextKinematicTranslation(targetVec);
-  });
-
-  return (
-    <RigidBody
-      position={[100, 100, 100]}
-      type="kinematicPosition"
-      colliders={false}
-      ref={ref}
-    >
-      <BallCollider args={[2]} />
-    </RigidBody>
-  );
-}
 
 const TechStack = () => {
-  const [isActive, setIsActive] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const boxesRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const threshold = document
-        .getElementById("work")!
-        .getBoundingClientRect().top;
-      setIsActive(scrollY > threshold);
-    };
-    document.querySelectorAll(".header a").forEach((elem) => {
-      const element = elem as HTMLAnchorElement;
-      element.addEventListener("click", () => {
-        const interval = setInterval(() => {
-          handleScroll();
-        }, 10);
-        setTimeout(() => {
-          clearInterval(interval);
-        }, 1000);
-      });
-    });
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-  const materials = useMemo(() => {
-    return textures.map(
-      (texture) =>
-        new THREE.MeshPhysicalMaterial({
-          map: texture,
-          emissive: "#ffffff",
-          emissiveMap: texture,
-          emissiveIntensity: 0.3,
-          metalness: 0.5,
-          roughness: 1,
-          clearcoat: 0.1,
-        })
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const target = entry.target as HTMLElement;
+            const delay = target.dataset.delay || '0s';
+            target.style.animation = `fadeInUp 0.8s ${delay} forwards`;
+            observer.unobserve(target);
+          }
+        });
+      },
+      { threshold: 0.1 }
     );
+
+    boxesRef.current.forEach((box) => {
+      if (box) observer.observe(box);
+    });
+
+    return () => {
+      boxesRef.current.forEach((box) => {
+        if (box) observer.unobserve(box);
+      });
+    };
   }, []);
 
   return (
-    <div className="techstack">
-      <h2> My Techstack</h2>
+    <section className="insiders-section" ref={sectionRef}>
+      <h2 className="section-title">Insiders</h2>
+      <div className="techstack-container">
+        {/* Left Box - Our Technology */}
+        <div
+          className="left-box"
+          ref={el => { boxesRef.current[0] = el }}
+          data-delay="0.1s"
+        >
+          <div className="box-content">
+            <span className="box-description">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currently building a custom ai assistant <br/>&nbsp;&nbsp;&nbsp;using Electron JS named</span>
+            <h3 className="box-title">
+              Cypher
+            </h3>
+          </div>
+          <img
+            src={techImages.leftBox.src}
+            alt="Technology stack"
+            className="box-png left-png"
+            style={techImages.leftBox.style}
+          />
+        </div>
 
-      <Canvas
-        shadows
-        gl={{ alpha: true, stencil: false, depth: false, antialias: false }}
-        camera={{ position: [0, 0, 20], fov: 32.5, near: 1, far: 100 }}
-        onCreated={(state) => (state.gl.toneMappingExposure = 1.5)}
-        className="tech-canvas"
-      >
-        <ambientLight intensity={1} />
-        <spotLight
-          position={[20, 20, 25]}
-          penumbra={1}
-          angle={0.2}
-          color="white"
-          castShadow
-          shadow-mapSize={[512, 512]}
-        />
-        <directionalLight position={[0, 5, -4]} intensity={2} />
-        <Physics gravity={[0, 0, 0]}>
-          <Pointer isActive={isActive} />
-          {spheres.map((props, i) => (
-            <SphereGeo
-              key={i}
-              {...props}
-              material={materials[Math.floor(Math.random() * materials.length)]}
-              isActive={isActive}
+        {/* Right Boxes - Frontend & Backend */}
+        <div className="right-box">
+          {/* Frontend Box */}
+          <div
+            className="top-box frontend-box"
+            ref={el => { boxesRef.current[1] = el }}
+            data-delay="0.3s"
+          >
+            <div className="box-content">
+              <h4>Flexible with time zone Communications</h4>
+            </div>
+            <img
+              src={techImages.frontend.src}
+              alt="Frontend technologies"
+              className="box-png frontend-png"
+              style={techImages.frontend.style}
             />
-          ))}
-        </Physics>
-        <Environment
-          files="/models/char_enviorment.hdr"
-          environmentIntensity={0.5}
-          environmentRotation={[0, 4, 2]}
-        />
-        <EffectComposer enableNormalPass={false}>
-          <N8AO color="#0f002c" aoRadius={2} intensity={1.15} />
-        </EffectComposer>
-      </Canvas>
-    </div>
+          </div>
+
+          {/* Backend Box */}
+          <div
+            className="bottom-box backend-box"
+            ref={el => { boxesRef.current[2] = el }}
+            data-delay="0.5s"
+          >
+            <div className="box-content">
+              <h4>Tech Enthusiast with a<br/>&nbsp;&nbsp;&nbsp;&nbsp;passion for Development</h4>
+            </div>
+            <img
+              src={techImages.backend.src}
+              alt="Backend technologies"
+              className="box-png backend-png"
+              style={techImages.backend.style}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 

@@ -6,7 +6,7 @@
   position: relative;
   opacity: 1;
   height: auto;
-  width: var(--cWidth);
+  width: auto;
   margin: auto;
 }
 .about-me {

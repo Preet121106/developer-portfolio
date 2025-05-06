@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import * as THREE from "three";
 import { GLTF } from "three-stdlib";
 import { eyebrowBoneNames, typingBoneNames } from "../../../data/boneData";

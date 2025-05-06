@@ -129,6 +129,30 @@
   max-width: 100%;
   max-height: 350px;
 }
+.work-visit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 12px;
+  font-weight: 500;
+  color: var(--accentColor);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.work-visit-link svg {
+  transition: transform 0.3s ease;
+  font-size: 1rem;
+}
+
+.work-visit-link:hover {
+  color: #ffffff;
+}
+
+.work-visit-link:hover svg {
+  transform: translateX(4px);
+}
+
 @media only screen and (max-height: 900px) {
   .work-image img {
     max-height: 250px;
@@ -188,7 +212,7 @@
     gap: 20px;
   }
 }
-/* @media only screen and (max-width: 900px) {
+ @media only screen and (max-width: 900px) {
   .work-image img {
     max-height: 200px;
   }
@@ -199,7 +223,7 @@
   .work-box {
     gap: 20px;
   }
-} */
+}
 @media only screen and (max-width: 1025px) {
   .work-container {
     align-content: normal;

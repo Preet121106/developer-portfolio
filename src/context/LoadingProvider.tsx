@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import {
   createContext,
   PropsWithChildren,
@@ -34,6 +35,7 @@ export const LoadingProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
+ 
 export const useLoading = () => {
   const context = useContext(LoadingContext);
   if (!context) {

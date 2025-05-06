@@ -1,3 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable prefer-const */
+
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import setCharacter from "./utils/character";
@@ -14,7 +19,7 @@ import setAnimations from "./utils/animationUtils";
 import { setProgress } from "../Loading";
 
 const Scene = () => {
-  const canvasDiv = useRef<HTMLDivElement | null>(null);
+  const canvasDiv = useRef<HTMLDivElement>(null);
   const hoverDivRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef(new THREE.Scene());
   const { setLoading } = useLoading();
@@ -70,7 +75,7 @@ const Scene = () => {
             }, 2500);
           });
           window.addEventListener("resize", () =>
-            handleResize(renderer, camera, canvasDiv, character)
+            canvasDiv.current && handleResize(renderer, camera, { current: canvasDiv.current }, character)
           );
         }
       });
@@ -81,7 +86,7 @@ const Scene = () => {
       const onMouseMove = (event: MouseEvent) => {
         handleMouseMove(event, (x, y) => (mouse = { x, y }));
       };
-      let debounce: number | undefined;
+      let debounce: NodeJS.Timeout | undefined;
       const onTouchStart = (event: TouchEvent) => {
         const element = event.target as HTMLElement;
         debounce = setTimeout(() => {
@@ -131,7 +136,7 @@ const Scene = () => {
         scene.clear();
         renderer.dispose();
         window.removeEventListener("resize", () =>
-          handleResize(renderer, camera, canvasDiv, character!)
+          canvasDiv.current && handleResize(renderer, camera, { current: canvasDiv.current }, character!)
         );
         if (canvasDiv.current) {
           canvasDiv.current.removeChild(renderer.domElement);

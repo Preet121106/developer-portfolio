@@ -1,3 +1,5 @@
+/* eslint-disable no-var */
+/* eslint-disable prefer-const */
 import { SplitText } from "gsap-trial/SplitText";
 import gsap from "gsap";
 import { smoother } from "../Navbar";

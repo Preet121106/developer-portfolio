@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import * as THREE from "three";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { setCharTimeline, setAllTimeline } from "../../utils/GsapScroll";
